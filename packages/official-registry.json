@@ -1,0 +1,68 @@
+{
+  "packages": [
+    {
+      "id": "auth-kit",
+      "name": "Auth Kit",
+      "description": "Reusable auth, RBAC, and guarded-route conventions for enterprise NC UI apps.",
+      "version": "0.1.0",
+      "path": "catalog/auth-kit",
+      "integrations": ["react", "web-component", "node"]
+    },
+    {
+      "id": "data-table",
+      "name": "Data Table",
+      "description": "Enterprise data table conventions with filters, bulk actions, and audit-friendly layouts.",
+      "version": "0.1.0",
+      "path": "catalog/data-table",
+      "integrations": ["react", "web-component", "node"]
+    },
+    {
+      "id": "ops-dashboard",
+      "name": "Ops Dashboard",
+      "description": "Operations dashboard package with metrics, alerts, and incident workflow primitives.",
+      "version": "0.1.0",
+      "path": "catalog/ops-dashboard",
+      "integrations": ["react", "web-component", "node"]
+    },
+    {
+      "id": "chart-kit",
+      "name": "Chart Kit",
+      "description": "Enterprise chart and sparkline primitives for analytics-heavy NC UI apps.",
+      "version": "0.1.0",
+      "path": "catalog/chart-kit",
+      "integrations": ["react", "web-component", "node"]
+    },
+    {
+      "id": "form-kit",
+      "name": "Form Kit",
+      "description": "Reusable enterprise forms, validation messaging, and workflow shells.",
+      "version": "0.1.0",
+      "path": "catalog/form-kit",
+      "integrations": ["react", "web-component", "node"]
+    },
+    {
+      "id": "interop-react",
+      "name": "Interop React",
+      "description": "Bridge package for embedding NC UI in React-hosted applications.",
+      "version": "0.1.0",
+      "path": "catalog/interop-react",
+      "integrations": ["react", "node"]
+    },
+    {
+      "id": "next-bridge",
+      "name": "Next Bridge",
+      "description": "Helpers for using NC UI inside Next-style applications.",
+      "version": "0.1.0",
+      "path": "catalog/next-bridge",
+      "integrations": ["next", "react", "node"]
+    },
+    {
+      "id": "vite-bridge",
+      "name": "Vite Bridge",
+      "description": "Helpers for using NC UI inside Vite-style applications.",
+      "version": "0.1.0",
+      "path": "catalog/vite-bridge",
+      "integrations": ["vite", "react", "node"]
+    }
+  ]
+}

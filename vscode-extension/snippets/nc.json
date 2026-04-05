@@ -1,0 +1,54 @@
+{
+  "Service": {
+    "prefix": "service",
+    "body": [
+      "service \"${1:my-service}\"",
+      "version \"${2:1.0.0}\"",
+      "",
+      "configure:",
+      "    port is ${3:8080}",
+      "",
+      "to ${4:hello} with ${5:name}:",
+      "    print \"hello \" + ${5:name}"
+    ],
+    "description": "Create an NC service"
+  },
+  "Function": {
+    "prefix": "to",
+    "body": [
+      "to ${1:function_name} with ${2:param}:",
+      "    ${3:// body}"
+    ],
+    "description": "Define an NC function"
+  },
+  "If Block": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition}:",
+      "    ${2:// body}"
+    ],
+    "description": "If conditional block"
+  },
+  "Set Variable": {
+    "prefix": "set",
+    "body": [
+      "set ${1:name} to ${2:value}"
+    ],
+    "description": "Set a variable"
+  },
+  "Repeat While": {
+    "prefix": "repeat",
+    "body": [
+      "repeat while ${1:condition}:",
+      "    ${2:// body}"
+    ],
+    "description": "Repeat while loop"
+  },
+  "Print": {
+    "prefix": "print",
+    "body": [
+      "print ${1:\"hello world\"}"
+    ],
+    "description": "Print a value"
+  }
+}

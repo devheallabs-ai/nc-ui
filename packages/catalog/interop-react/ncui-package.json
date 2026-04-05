@@ -1,0 +1,12 @@
+{
+  "name": "interop-react",
+  "version": "0.1.0",
+  "description": "Bridge helpers for embedding NC UI into React applications.",
+  "main": "index.ncui",
+  "styles": [
+    "styles/package.css"
+  ],
+  "scripts": [
+    "scripts/package.js"
+  ]
+}

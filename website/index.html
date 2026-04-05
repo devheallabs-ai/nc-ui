@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NC UI — Build Websites in Plain English</title>
+  <meta name="description" content="NC UI is a plain-English frontend language that compiles to HTML, CSS, and JavaScript. Write naturally, ship beautifully.">
+  <meta name="keywords" content="NC UI, plain english, frontend, html compiler, website builder, DevHeal Labs">
+  <meta property="og:title" content="NC UI — Build Websites in Plain English">
+  <meta property="og:description" content="A plain-English frontend language that compiles to HTML/CSS/JS.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/jpeg" href="logo.jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-code: #0d0d14;
+      --border: rgba(255,255,255,0.07);
+      --text: #f0f0f5;
+      --text-dim: rgba(255,255,255,0.55);
+      --text-muted: rgba(255,255,255,0.35);
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --gradient: linear-gradient(135deg, #00d4ff, #7c3aed);
+      --gradient-wide: linear-gradient(135deg, #00d4ff 0%, #7c3aed 50%, #ff6bcb 100%);
+      --glow-accent: rgba(0, 212, 255, 0.15);
+      --glow-accent2: rgba(124, 58, 237, 0.15);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Scrollbar ──────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+    /* ─── Utility ────────────────────────────────────────────── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 120px 0; position: relative; }
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-dim);
+      max-width: 600px;
+      line-height: 1.7;
+    }
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+
+    /* ─── Reveal Animation ───────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ─── Gradient Text ──────────────────────────────────────── */
+    .gradient-text {
+      background: var(--gradient-wide);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% 200%;
+      animation: gradientShift 5s ease infinite;
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* ─── Navigation ─────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 16px 0;
+      transition: all 0.3s;
+    }
+    .nav.scrolled {
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 800;
+      font-size: 1.3rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      padding: 8px 20px;
+      border-radius: 8px;
+      background: var(--gradient);
+      color: #fff !important;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    .nav-mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    /* ─── Hero ───────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, var(--glow-accent) 0%, transparent 70%);
+      animation: heroPulse 6s ease-in-out infinite;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--glow-accent2) 0%, transparent 70%);
+      animation: heroPulse 8s ease-in-out 2s infinite;
+    }
+    @keyframes heroPulse {
+      0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.15); }
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 850px;
+      padding: 0 24px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px 6px 8px;
+      border-radius: 100px;
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 32px;
+    }
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: badgePulse 2s ease infinite;
+    }
+    @keyframes badgePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero-title {
+      font-size: clamp(2.8rem, 6.5vw, 5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+      color: var(--text-dim);
+      max-width: 580px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero {
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--gradient);
+      color: #fff;
+      box-shadow: 0 4px 30px rgba(0, 212, 255, 0.25);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(0, 212, 255, 0.35);
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+
+    .hero-code-hint {
+      margin-top: 64px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .hero-code-hint code {
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 0.85rem;
+    }
+
+    /* ─── Live Demo ──────────────────────────────────────────── */
+    .demo-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      box-shadow: 0 20px 80px rgba(0,0,0,0.4);
+    }
+    .demo-panel {
+      position: relative;
+    }
+    .demo-panel-header {
+      padding: 12px 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .demo-panel-header .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+    .demo-panel-header .dot-green { background: #22c55e; }
+    .demo-panel-header .dot-accent { background: var(--accent); }
+
+    .demo-code {
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: #d4d4d8;
+      background: var(--bg-code);
+      min-height: 320px;
+      overflow-x: auto;
+    }
+    .demo-code .kw { color: var(--accent); }
+    .demo-code .str { color: #f9a8d4; }
+    .demo-code .prop { color: #a78bfa; }
+    .demo-code .cmt { color: var(--text-muted); font-style: italic; }
+    .demo-code .indent { padding-left: 2em; }
+    .demo-code .indent2 { padding-left: 4em; }
+
+    .demo-output {
+      padding: 24px;
+      background: #fff;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .demo-output-card {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 12px;
+      padding: 40px 32px;
+      text-align: center;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+    }
+    .demo-output-card h3 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .demo-output-card p {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      margin-bottom: 20px;
+    }
+    .demo-output-btn {
+      display: inline-block;
+      padding: 10px 28px;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .demo-left-border {
+      border-right: 1px solid var(--border);
+    }
+
+    /* ─── How It Works ───────────────────────────────────────── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 64px;
+    }
+    .step {
+      position: relative;
+      padding: 40px 32px;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .step:hover {
+      border-color: rgba(0, 212, 255, 0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--gradient);
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 24px;
+    }
+    .step h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .step p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .step-arrow {
+      position: absolute;
+      right: -24px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      z-index: 2;
+    }
+
+    /* ─── Code Comparison ────────────────────────────────────── */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 64px;
+    }
+    .comparison-panel {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      transition: all 0.3s;
+    }
+    .comparison-panel:hover {
+      border-color: rgba(255,255,255,0.12);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .comparison-header {
+      padding: 14px 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .comparison-header .tag {
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .tag-ncui { background: rgba(0, 212, 255, 0.12); color: var(--accent); }
+    .tag-html { background: rgba(255, 152, 0, 0.12); color: #ffb74d; }
+    .comparison-code {
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: #d4d4d8;
+      background: var(--bg-code);
+      min-height: 260px;
+      overflow-x: auto;
+    }
+    .comparison-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 24px;
+      gap: 12px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .comparison-badge strong { color: var(--accent); font-weight: 700; }
+
+    /* ─── Features ───────────────────────────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 64px;
+    }
+    .feature-card {
+      padding: 36px 28px;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gradient);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .feature-card:hover {
+      border-color: rgba(0, 212, 255, 0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      background: rgba(0, 212, 255, 0.08);
+    }
+    .feature-card:nth-child(2) .feature-icon { background: rgba(124, 58, 237, 0.1); }
+    .feature-card:nth-child(3) .feature-icon { background: rgba(34, 197, 94, 0.1); }
+    .feature-card:nth-child(4) .feature-icon { background: rgba(249, 115, 22, 0.1); }
+    .feature-card:nth-child(5) .feature-icon { background: rgba(236, 72, 153, 0.1); }
+    .feature-card:nth-child(6) .feature-icon { background: rgba(56, 189, 248, 0.1); }
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .feature-card p {
+      color: var(--text-dim);
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    /* ─── Get Started ────────────────────────────────────────── */
+    .get-started-box {
+      max-width: 700px;
+      margin: 64px auto 0;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .get-started-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .terminal-dot-red { background: #ff5f57; }
+    .terminal-dot-yellow { background: #febc2e; }
+    .terminal-dot-green { background: #28c840; }
+    .get-started-body {
+      padding: 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      line-height: 2.2;
+      background: var(--bg-code);
+    }
+    .get-started-body .prompt { color: var(--accent); }
+    .get-started-body .cmd { color: var(--text); }
+    .get-started-body .comment { color: var(--text-muted); }
+    .get-started-body .output { color: #22c55e; }
+
+    /* ─── CTA Section ────────────────────────────────────────── */
+    .cta-section {
+      text-align: center;
+      padding: 120px 0 140px;
+      position: relative;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--glow-accent2) 0%, transparent 70%);
+      opacity: 0.3;
+    }
+    .cta-content { position: relative; z-index: 2; }
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 40px;
+      border-radius: 14px;
+      background: var(--gradient);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 30px rgba(0, 212, 255, 0.25);
+      border: none;
+      cursor: pointer;
+    }
+    .btn-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 50px rgba(0, 212, 255, 0.35);
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .footer-logo {
+      font-weight: 800;
+      font-size: 1.1rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .footer-sep { color: var(--text-muted); }
+    .footer-brand {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+    .footer-brand a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .footer-brand a:hover { opacity: 0.8; }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .footer-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ─── Particles Canvas ───────────────────────────────────── */
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps { grid-template-columns: 1fr; max-width: 500px; margin-left: auto; margin-right: auto; }
+      .step-arrow { display: none; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-mobile-toggle { display: block; }
+      .hero-title { font-size: 2.4rem; }
+      .demo-container { grid-template-columns: 1fr; }
+      .demo-left-border { border-right: none; border-bottom: 1px solid var(--border); }
+      .comparison { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+      .section { padding: 80px 0; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .btn-hero { width: 100%; max-width: 280px; justify-content: center; }
+    }
+
+    /* ─── Mobile Menu ────────────────────────────────────────── */
+    .nav-mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10,10,15,0.95);
+      backdrop-filter: blur(20px);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    .nav-mobile-menu.open { display: flex; }
+    .nav-mobile-menu a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    .nav-mobile-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 2rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Particles -->
+  <canvas id="particles"></canvas>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo"><img src="logo.jpeg" alt="DevHeal Labs AI" style="width:32px;height:32px;border-radius:8px;object-fit:contain;margin-right:8px"> NC UI</a>
+      <ul class="nav-links">
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#ai-integration" style="color:#10b981;font-weight:600">AI Integration</a></li>
+        <li><a href="#get-started">Get Started</a></li>
+        <li><a href="playground.html" class="nav-cta">Playground</a></li>
+      </ul>
+      <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <button class="nav-mobile-close" id="mobileClose">&times;</button>
+    <a href="#demo" onclick="closeMobile()">Demo</a>
+    <a href="#how-it-works" onclick="closeMobile()">How It Works</a>
+    <a href="#features" onclick="closeMobile()">Features</a>
+    <a href="#ai-integration" onclick="closeMobile()">AI Integration</a>
+    <a href="#get-started" onclick="closeMobile()">Get Started</a>
+    <a href="playground.html">Playground</a>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-grid"></div>
+    </div>
+    <div class="hero-content">
+      <div class="reveal">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Now Open Source
+        </div>
+      </div>
+      <h1 class="hero-title reveal reveal-delay-1">
+        <span class="gradient-text">NC UI</span><br>
+        Build Websites in<br>Plain English
+      </h1>
+      <p class="hero-subtitle reveal reveal-delay-2">
+        A plain-English frontend language that compiles to production-ready HTML, CSS, and JavaScript. Write what you mean. Ship what you build.
+      </p>
+      <div class="hero-actions reveal reveal-delay-3">
+        <a href="#get-started" class="btn-hero btn-primary">
+          Get Started
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="playground.html" class="btn-hero btn-ghost">
+          Try Playground
+        </a>
+      </div>
+      <div class="hero-code-hint reveal reveal-delay-4">
+        <code>npm install -g nc-ui</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Demo -->
+  <section class="section" id="demo">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section-label">Live Demo</span>
+        <h2 class="section-title">See it in action</h2>
+        <p class="section-subtitle mx-auto">Write NC UI on the left. See the compiled output on the right. No build tools needed.</p>
+      </div>
+      <div class="demo-container reveal reveal-delay-2" style="margin-top:48px;">
+        <div class="demo-panel demo-left-border">
+          <div class="demo-panel-header">
+            <span class="dot dot-green"></span>
+            NC UI Source
+          </div>
+          <div class="demo-code">
+<span class="kw">page</span> <span class="str">"My Website"</span><br>
+<span class="kw">theme</span> <span class="str">"dark"</span><br>
+<span class="kw">accent</span> <span class="str">"#667eea"</span><br>
+<br>
+<span class="kw">section</span> <span class="prop">hero centered</span>:<br>
+<span class="indent"><span class="kw">heading</span> <span class="str">"Hello World"</span> <span class="prop">style</span> <span class="str">"gradient"</span></span><br>
+<span class="indent"><span class="kw">text</span> <span class="str">"Built with NC UI"</span></span><br>
+<span class="indent"><span class="kw">button</span> <span class="str">"Get Started"</span> <span class="prop">style</span> <span class="str">"primary"</span></span><br>
+<span class="indent"><span class="kw">animate</span> <span class="str">"fade-up"</span></span>
+          </div>
+        </div>
+        <div class="demo-panel">
+          <div class="demo-panel-header">
+            <span class="dot dot-accent"></span>
+            Compiled Output
+          </div>
+          <div class="demo-output">
+            <div class="demo-output-card">
+              <h3>Hello World</h3>
+              <p>Built with NC UI</p>
+              <span class="demo-output-btn">Get Started</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section-label">How It Works</span>
+        <h2 class="section-title">Three steps. Zero complexity.</h2>
+        <p class="section-subtitle mx-auto">From idea to deployed website in minutes, not hours.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal reveal-delay-1">
+          <div class="step-number">1</div>
+          <h3>Write Plain English</h3>
+          <p>Describe your website using simple, readable commands. No angle brackets, no class names, no semicolons.</p>
+          <span class="step-arrow">&#8594;</span>
+        </div>
+        <div class="step reveal reveal-delay-2">
+          <div class="step-number">2</div>
+          <h3>NC UI Compiles</h3>
+          <p>The NC UI compiler transforms your plain-English source into optimized, production-ready HTML, CSS, and JavaScript.</p>
+          <span class="step-arrow">&#8594;</span>
+        </div>
+        <div class="step reveal reveal-delay-3">
+          <div class="step-number">3</div>
+          <h3>Ship Your Website</h3>
+          <p>Deploy anywhere that serves static files. GitHub Pages, Netlify, Vercel, or your own server. No runtime needed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Code Comparison -->
+  <section class="section" id="comparison">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section-label">Code Comparison</span>
+        <h2 class="section-title">Less code. Same result.</h2>
+        <p class="section-subtitle mx-auto">NC UI replaces verbose HTML/CSS with clean, readable syntax.</p>
+      </div>
+      <div class="comparison">
+        <div class="comparison-panel reveal reveal-delay-1">
+          <div class="comparison-header">
+            <span class="tag tag-ncui">NC UI</span>
+            7 lines
+          </div>
+          <div class="comparison-code">
+<span class="kw">section</span> <span class="prop">hero centered</span>:<br>
+&nbsp;&nbsp;<span class="kw">heading</span> <span class="str">"Welcome"</span> <span class="prop">style</span> <span class="str">"gradient"</span><br>
+&nbsp;&nbsp;<span class="kw">text</span> <span class="str">"The future of web dev"</span><br>
+&nbsp;&nbsp;<span class="kw">row</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">button</span> <span class="str">"Start"</span> <span class="prop">style</span> <span class="str">"primary"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">button</span> <span class="str">"Learn More"</span> <span class="prop">style</span> <span class="str">"outline"</span><br>
+&nbsp;&nbsp;<span class="kw">animate</span> <span class="str">"fade-up"</span>
+          </div>
+        </div>
+        <div class="comparison-panel reveal reveal-delay-2">
+          <div class="comparison-header">
+            <span class="tag tag-html">HTML/CSS</span>
+            42+ lines
+          </div>
+          <div class="comparison-code" style="font-size:0.75rem;">
+<span style="color:#f97316">&lt;section</span> <span style="color:#a78bfa">class=</span><span class="str">"hero"</span><span style="color:#f97316">&gt;</span><br>
+&nbsp;&nbsp;<span style="color:#f97316">&lt;div</span> <span style="color:#a78bfa">class=</span><span class="str">"hero-inner"</span><span style="color:#f97316">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#f97316">&lt;h1</span> <span style="color:#a78bfa">class=</span><span class="str">"gradient-text"</span><span style="color:#f97316">&gt;</span>Welcome<span style="color:#f97316">&lt;/h1&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#f97316">&lt;p&gt;</span>The future of web dev<span style="color:#f97316">&lt;/p&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#f97316">&lt;div</span> <span style="color:#a78bfa">class=</span><span class="str">"btn-row"</span><span style="color:#f97316">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#f97316">&lt;a</span> <span style="color:#a78bfa">class=</span><span class="str">"btn primary"</span><span style="color:#f97316">&gt;</span>Start<span style="color:#f97316">&lt;/a&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#f97316">&lt;a</span> <span style="color:#a78bfa">class=</span><span class="str">"btn outline"</span><span style="color:#f97316">&gt;</span>Learn More<span style="color:#f97316">&lt;/a&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#f97316">&lt;/div&gt;</span><br>
+&nbsp;&nbsp;<span style="color:#f97316">&lt;/div&gt;</span><br>
+<span style="color:#f97316">&lt;/section&gt;</span><br>
+<br>
+<span style="color:var(--text-muted)">/* + 30 lines of CSS... */</span>
+          </div>
+        </div>
+      </div>
+      <div class="comparison-badge reveal reveal-delay-3">
+        <strong>6x fewer lines</strong>
+        <span>&mdash;</span>
+        Same beautiful result
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section-label">Features</span>
+        <h2 class="section-title">Everything you need</h2>
+        <p class="section-subtitle mx-auto">NC UI comes packed with features that make frontend development effortless.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          </div>
+          <h3>Plain English Syntax</h3>
+          <p>Write websites in words you already know. No brackets, no semicolons, no class name soup. Just say what you want.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>Responsive by Default</h3>
+          <p>Every component adapts to any screen size automatically. Mobile-first design without writing a single media query.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </div>
+          <h3>Component System</h3>
+          <p>Navbars, heroes, cards, grids, forms, footers. A rich library of composable components out of the box.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          </div>
+          <h3>Theme Support</h3>
+          <p>Switch between dark and light themes with a single keyword. Customize accent colors with one line of code.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3>Animation Support</h3>
+          <p>Fade-ups, staggers, and scroll-triggered animations with a single keyword. Silky smooth, performance-optimized.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </div>
+          <h3>GitHub Pages Compatible</h3>
+          <p>Compiles to static HTML. Deploy directly to GitHub Pages, Netlify, Vercel, or any static host with zero config.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NC AI + NC UI Integration -->
+  <section class="section" id="ai-integration" style="background:rgba(16,185,129,0.03)">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section-label" style="color:#10b981">NC AI Integration</span>
+        <h2 class="section-title"><span class="gradient-text">AI-Powered</span> UI Generation</h2>
+        <p class="section-subtitle mx-auto">NC UI works with NC AI. The current v1 binary is validated to generate `app.ncui` plus the full backend, tests, docs, and compiled frontend bundle from a complex English prompt.</p>
+      </div>
+      <div class="features-grid" style="margin-top:48px">
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon" style="background:rgba(16,185,129,0.1)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          </div>
+          <h3>One-Command Scaffold</h3>
+          <p><code style="color:#10b981">nc ai create "multi-tenant operations dashboard with role based access analytics alert center approvals and dark theme"</code> generates `app.ncui` together with the backend, tests, docs, and compiled HTML bundle.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon" style="background:rgba(16,185,129,0.1)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>
+          </div>
+          <h3>Self-Learning</h3>
+          <p>Every NC UI page you create feeds back into the AI training corpus. The AI learns your patterns and generates better code over time.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-icon" style="background:rgba(16,185,129,0.1)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <h3>Contract Validation</h3>
+          <p>NC AI validates generated NC UI code, repairs structural issues, and then compiles the frontend release bundle from the generated page.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon" style="background:rgba(16,185,129,0.1)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="1"/></svg>
+          </div>
+          <h3>Agentic AI Support</h3>
+          <p>NC ecosystem supports agentic AI workflows — autonomous agents plan, execute, and iterate on code generation tasks with multi-step reasoning.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon" style="background:rgba(16,185,129,0.1)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <h3>Powered by NC AI</h3>
+          <p>NC AI is the AI engine behind NC AI generation &mdash; runs on your CPU at $0 cost. No API keys, no cloud, no GPU required. Purpose-built for the NC ecosystem. You own your AI.</p>
+        </div>
+      </div>
+      <div class="text-center reveal" style="margin-top:40px">
+        <div class="get-started-box" style="max-width:700px;margin:0 auto;text-align:left">
+          <div class="get-started-header">
+            <span class="terminal-dot terminal-dot-red"></span>
+            <span class="terminal-dot terminal-dot-yellow"></span>
+            <span class="terminal-dot terminal-dot-green"></span>
+          </div>
+          <div class="get-started-body">
+            <span class="comment"># Validated complex prompt on the v1 release binary</span><br>
+            <span class="prompt">$</span> <span class="cmd">nc ai create "multi-tenant operations dashboard with role based access analytics alert center approvals and dark theme"</span><br>
+            <br>
+            <span class="output">&#10003; Created: app.ncui — dark-theme dashboard scaffold</span><br>
+            <span class="output">&#10003; Created: service.nc — backend scaffold</span><br>
+            <span class="output">&#10003; Created: test_app.nc + README.md</span><br>
+            <span class="output">&#10003; Validation: AI structural checks passed</span><br>
+            <span class="output">&#10003; Self-learn: saved to training corpus</span><br>
+            <br>
+            <span class="comment"># Rebuild the generated NC UI</span><br>
+            <span class="prompt">$</span> <span class="cmd">nc-ui build app.ncui</span><br>
+            <span class="output">&#10003; Compiled to dist/app.html</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Get Started -->
+  <section class="section" id="get-started">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section-label">Get Started</span>
+        <h2 class="section-title">Up and running in seconds</h2>
+        <p class="section-subtitle mx-auto">Install NC UI globally, then build your first website with two commands.</p>
+      </div>
+      <div class="get-started-box reveal reveal-delay-2">
+        <div class="get-started-header">
+          <span class="terminal-dot terminal-dot-red"></span>
+          <span class="terminal-dot terminal-dot-yellow"></span>
+          <span class="terminal-dot terminal-dot-green"></span>
+        </div>
+        <div class="get-started-body">
+          <span class="comment"># Install NC UI globally</span><br>
+          <span class="prompt">$</span> <span class="cmd">npm install -g nc-ui</span><br>
+          <br>
+          <span class="comment"># Create your first site</span><br>
+          <span class="prompt">$</span> <span class="cmd">echo 'page "Hello"\nsection hero centered:\n    heading "Hello World" style "gradient"' &gt; my-site.ncui</span><br>
+          <br>
+          <span class="comment"># Build it</span><br>
+          <span class="prompt">$</span> <span class="cmd">nc-ui build my-site.ncui</span><br>
+          <br>
+          <span class="output">&#10003; Compiled to my-site.html (0.8ms)</span><br>
+          <span class="output">&#10003; Ready to deploy!</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / Playground -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content reveal">
+        <span class="section-label">Playground</span>
+        <h2 class="section-title" style="margin-bottom:20px;">Ready to try it?</h2>
+        <p class="section-subtitle mx-auto" style="margin-bottom:40px;">Write NC UI code and see the result live, right in your browser. No installation required.</p>
+        <a href="playground.html" class="btn-cta">
+          Try NC UI Live
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <span class="footer-logo">NC UI</span>
+        <span class="footer-sep">|</span>
+        <span class="footer-brand">By <a href="https://devheallabs.in" target="_blank" rel="noopener">DevHeal Labs AI</a></span>
+      </div>
+      <ul class="footer-links">
+        <li><a href="playground.html">Playground</a></li>
+        <li><a href="https://github.com/DevHeal-Labs/nc-ui" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://nc.devheallabs.in" target="_blank" rel="noopener">NC Language</a></li>
+        <li><a href="https://ncai.devheallabs.in" target="_blank" rel="noopener">NC AI</a></li>
+        <li><span style="opacity:.5">HiveANT — Coming Soon</span></li>
+        <li><span style="opacity:.5">SwarmOps — Coming Soon</span></li>
+        <li><span style="opacity:.5">NeuralEdge — Coming Soon</span></li>
+        <li><a href="https://devheallabs.in" target="_blank" rel="noopener">DevHeal Labs</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    /* ─── Scroll-triggered reveals ────────────────────────── */
+    (function() {
+      var reveals = document.querySelectorAll('.reveal');
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      reveals.forEach(function(el) { observer.observe(el); });
+    })();
+
+    /* ─── Nav scroll effect ───────────────────────────────── */
+    (function() {
+      var nav = document.getElementById('nav');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 60) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      });
+    })();
+
+    /* ─── Mobile menu ─────────────────────────────────────── */
+    var mobileMenu = document.getElementById('mobileMenu');
+    document.getElementById('mobileToggle').addEventListener('click', function() {
+      mobileMenu.classList.add('open');
+    });
+    document.getElementById('mobileClose').addEventListener('click', function() {
+      mobileMenu.classList.remove('open');
+    });
+    function closeMobile() {
+      mobileMenu.classList.remove('open');
+    }
+
+    /* ─── Particle / Glow Canvas ──────────────────────────── */
+    (function() {
+      var canvas = document.getElementById('particles');
+      var ctx = canvas.getContext('2d');
+      var particles = [];
+      var particleCount = 40;
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      function Particle() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.radius = Math.random() * 1.5 + 0.5;
+        this.opacity = Math.random() * 0.3 + 0.05;
+        this.color = Math.random() > 0.5 ? '0, 212, 255' : '124, 58, 237';
+      }
+
+      for (var i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(function(p) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(' + p.color + ',' + p.opacity + ')';
+          ctx.fill();
+        });
+
+        // Draw connections
+        for (var i = 0; i < particles.length; i++) {
+          for (var j = i + 1; j < particles.length; j++) {
+            var dx = particles[i].x - particles[j].x;
+            var dy = particles[i].y - particles[j].y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = 'rgba(255,255,255,' + (0.03 * (1 - dist / 150)) + ')';
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+  </script>
+</body>
+</html>

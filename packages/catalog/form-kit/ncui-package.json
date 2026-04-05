@@ -1,0 +1,12 @@
+{
+  "name": "form-kit",
+  "version": "0.1.0",
+  "description": "Enterprise form shells and validation helpers for NC UI apps.",
+  "main": "index.ncui",
+  "styles": [
+    "styles/package.css"
+  ],
+  "scripts": [
+    "scripts/package.js"
+  ]
+}

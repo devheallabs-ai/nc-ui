@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NC UI Playground — Build websites in plain English</title>
+  <meta name="description" content="Try NC UI live in your browser. Write plain English, get stunning websites.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-editor: #0d0d14;
+      --border: rgba(255,255,255,0.08);
+      --text: #f0f0f5;
+      --text-dim: rgba(255,255,255,0.5);
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --gradient: linear-gradient(135deg, #00d4ff, #7c3aed);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── Header ─────────────────────────────────────────────────────── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.1rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo span {
+      -webkit-text-fill-color: var(--text-dim);
+      font-weight: 400;
+      font-size: 0.85rem;
+      margin-left: 8px;
+    }
+
+    .example-select {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .example-select:focus {
+      border-color: var(--accent);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 7px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-primary {
+      background: var(--gradient);
+      border: none;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      color: #fff;
+    }
+
+    .btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ─── Main Area ──────────────────────────────────────────────────── */
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ─── Editor Panel ───────────────────────────────────────────────── */
+    .editor-panel {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      min-width: 300px;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .editor-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #editor {
+      width: 100%;
+      height: 100%;
+      background: var(--bg-editor);
+      color: #d4d4d8;
+      border: none;
+      outline: none;
+      resize: none;
+      padding: 20px;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      tab-size: 4;
+      -moz-tab-size: 4;
+      overflow: auto;
+    }
+
+    #editor::selection {
+      background: rgba(0, 212, 255, 0.2);
+    }
+
+    /* ─── Preview Panel ──────────────────────────────────────────────── */
+    .preview-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 300px;
+    }
+
+    .preview-wrap {
+      flex: 1;
+      background: #fff;
+      position: relative;
+    }
+
+    #preview {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .error-bar {
+      display: none;
+      padding: 8px 16px;
+      background: #2d1117;
+      color: #f85149;
+      font-size: 0.82rem;
+      font-family: 'JetBrains Mono', monospace;
+      border-top: 1px solid rgba(248, 81, 73, 0.2);
+    }
+
+    .error-bar.visible {
+      display: block;
+    }
+
+    /* ─── Resize Handle ──────────────────────────────────────────────── */
+    .resize-handle {
+      width: 4px;
+      cursor: col-resize;
+      background: transparent;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .resize-handle:hover,
+    .resize-handle.active {
+      background: var(--accent);
+    }
+
+    /* ─── Status Bar ─────────────────────────────────────────────────── */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 16px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    /* ─── Toast ──────────────────────────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      opacity: 0;
+      transition: all 0.3s;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .main {
+        flex-direction: column;
+      }
+      .editor-panel {
+        width: 100%;
+        height: 50%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .preview-panel {
+        height: 50%;
+      }
+      .resize-handle { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">NC UI <span>Playground</span></div>
+      <select class="example-select" id="exampleSelect">
+        <option value="portfolio">Portfolio</option>
+        <option value="landing">Landing Page</option>
+        <option value="dashboard">Dashboard</option>
+      </select>
+    </div>
+    <div class="header-right">
+      <button class="btn" id="btnCopy" title="Copy compiled HTML">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy HTML
+      </button>
+      <button class="btn" id="btnDownload" title="Download as .html file">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download
+      </button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="editor-panel" id="editorPanel">
+      <div class="panel-header">
+        <span>Editor</span>
+        <span id="lineCount">0 lines</span>
+      </div>
+      <div class="editor-wrap">
+        <textarea id="editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+      </div>
+    </div>
+
+    <div class="resize-handle" id="resizeHandle"></div>
+
+    <div class="preview-panel">
+      <div class="panel-header">
+        <span>Preview</span>
+        <span id="compileTime"></span>
+      </div>
+      <div class="preview-wrap">
+        <iframe id="preview" sandbox="allow-scripts allow-same-origin"></iframe>
+      </div>
+      <div class="error-bar" id="errorBar"></div>
+    </div>
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <div><span class="status-dot"></span>NC UI Compiler v1.0.0 — Client-side</div>
+    <div>Tab = 4 spaces | Auto-compile: 300ms</div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Compiler (inline) -->
+  <script src="compiler.js"></script>
+  <script src="nc-ui.js"></script>
+
+  <script>
+    // ─── Examples ──────────────────────────────────────────────────────
+
+    const EXAMPLES = {
+      portfolio: `page "John Doe — Portfolio"
+theme "dark"
+accent "#00d4ff"
+
+nav:
+    brand "JD"
+    links:
+        link "Work" to "#work"
+        link "About" to "#about"
+        link "Contact" to "#contact"
+
+section hero centered:
+    badge "Available for hire"
+    heading "John Doe" style "gradient"
+    subheading "Full Stack Developer & Designer"
+    text "I craft modern web experiences with clean code and beautiful interfaces. Let's build something extraordinary together."
+    row:
+        button "View My Work" links to "#work" style "primary"
+        button "Get in Touch" links to "#contact" style "outline"
+    animate "fade-up"
+
+section work centered:
+    heading "What I Do"
+    text "Combining design thinking with technical expertise to deliver exceptional digital products."
+    grid 3 columns:
+        card icon "code":
+            heading "Development"
+            text "React, Node.js, TypeScript — building scalable applications with modern tools."
+        card icon "design":
+            heading "Design"
+            text "UI/UX design that delights users and drives engagement."
+        card icon "rocket":
+            heading "Performance"
+            text "Blazing fast load times and smooth interactions on every device."
+    animate "stagger"
+
+section contact centered:
+    heading "Get in Touch"
+    text "Have a project in mind? Let's talk."
+    form action "/api/contact":
+        input "Name" required
+        input "Email" type "email" required
+        textarea "Your Message"
+        button "Send Message" style "primary"
+    animate "fade-up"
+
+footer:
+    text "Built with NC UI by John Doe"
+    row:
+        link "GitHub" to "https://github.com"
+        link "Twitter" to "https://twitter.com"
+        link "LinkedIn" to "https://linkedin.com"`,
+
+      landing: `page "Nexus — Ship Faster"
+theme "dark"
+accent "#8b5cf6"
+
+nav:
+    brand "Nexus"
+    links:
+        link "Features" to "#features"
+        link "Pricing" to "#pricing"
+        button "Get Started" links to "#signup" style "primary"
+
+section hero centered:
+    badge "Now in Public Beta"
+    heading "Ship products 10x faster" style "gradient"
+    subheading "The modern development platform for teams who move fast"
+    text "Nexus gives you the tools to build, deploy, and scale — all in one place."
+    row:
+        button "Start Free" links to "#signup" style "primary"
+        button "Watch Demo" links to "#demo" style "glass"
+    animate "fade-up"
+
+section features centered:
+    heading "Everything you need"
+    text "A complete platform that replaces your entire toolchain."
+    grid 3 columns:
+        card icon "code":
+            heading "Instant APIs"
+            text "Generate production-ready APIs from your data models in seconds."
+        card icon "globe":
+            heading "Edge Deployment"
+            text "Deploy globally with zero configuration."
+        card icon "shield":
+            heading "Built-in Auth"
+            text "User authentication, roles, and permissions — ready out of the box."
+    animate "stagger"
+
+section stats centered:
+    heading "Trusted by developers worldwide"
+    grid 4 columns:
+        stat "50K+" "Developers"
+        stat "2M+" "Deployments"
+        stat "99.99%" "Uptime"
+        stat "< 50ms" "Latency"
+    animate "fade-up"
+
+section pricing centered:
+    heading "Simple, transparent pricing"
+    text "Start free. Scale as you grow."
+    grid 3 columns:
+        card:
+            heading "Starter"
+            text "Free forever"
+            list:
+                item "3 projects"
+                item "1 GB storage"
+                item "Community support"
+            button "Start Free" style "outline"
+        card:
+            heading "Pro"
+            text "$29/month"
+            list:
+                item "Unlimited projects"
+                item "50 GB storage"
+                item "Priority support"
+            button "Go Pro" style "primary"
+        card:
+            heading "Enterprise"
+            text "Custom pricing"
+            list:
+                item "Everything in Pro"
+                item "SSO & SAML"
+                item "Dedicated support"
+            button "Contact Sales" style "outline"
+    animate "stagger"
+
+footer:
+    text "Nexus Inc. Built with NC UI."
+    row:
+        link "Docs" to "#"
+        link "GitHub" to "https://github.com"
+        link "Twitter" to "https://twitter.com"`,
+
+      dashboard: `page "Dashboard — Analytics"
+theme "dark"
+accent "#10b981"
+
+nav:
+    brand "Analytics"
+    links:
+        link "Overview" to "#overview"
+        link "Reports" to "#reports"
+        link "Settings" to "#settings"
+
+section overview:
+    heading "Overview"
+    text "Your key metrics at a glance. Updated in real-time."
+    grid 4 columns:
+        card icon "users":
+            heading "Total Users"
+            stat "24,521" "Active accounts"
+        card icon "chart":
+            heading "Revenue"
+            stat "$142K" "This month"
+        card icon "globe":
+            heading "Page Views"
+            stat "1.2M" "Last 30 days"
+        card icon "clock":
+            heading "Avg. Session"
+            stat "4m 32s" "Per user"
+    animate "stagger"
+
+section reports:
+    heading "Performance"
+    text "Track your team's progress across all key areas."
+    grid 2 columns:
+        card:
+            heading "Conversion Rate"
+            progress "Landing Page" 78%
+            progress "Sign Up Flow" 64%
+            progress "Checkout" 45%
+            progress "Onboarding" 89%
+        card:
+            heading "Team Activity"
+            list:
+                item "Sarah pushed 12 commits today"
+                item "Alex closed 5 issues"
+                item "Jordan deployed v2.4.1 to production"
+                item "Morgan updated the design system"
+                item "Taylor reviewed 8 pull requests"
+    animate "fade-up"
+
+section metrics centered:
+    heading "Monthly Highlights"
+    grid 3 columns:
+        card icon "rocket":
+            heading "Deployments"
+            stat "342" "This month"
+            text "Up 23% from last month"
+        card icon "shield":
+            heading "Uptime"
+            stat "99.98%" "Last 90 days"
+            text "Zero critical incidents"
+        card icon "heart":
+            heading "NPS Score"
+            stat "72" "Industry avg: 44"
+            text "Customer satisfaction rising"
+    animate "stagger"
+
+footer:
+    text "Analytics Dashboard v2.4 — Built with NC UI"
+    row:
+        link "Documentation" to "#"
+        link "Support" to "#"
+        link "Status" to "#"`
+    };
+
+    // ─── DOM ────────────────────────────────────────────────────────────
+
+    const editor = document.getElementById('editor');
+    const preview = document.getElementById('preview');
+    const errorBar = document.getElementById('errorBar');
+    const lineCount = document.getElementById('lineCount');
+    const compileTime = document.getElementById('compileTime');
+    const exampleSelect = document.getElementById('exampleSelect');
+    const toast = document.getElementById('toast');
+
+    // ─── Compile ────────────────────────────────────────────────────────
+
+    let compileTimer = null;
+    let lastCompiledHtml = '';
+
+    function compileAndRender() {
+      const source = editor.value;
+      const lines = source.split('\n').length;
+      lineCount.textContent = lines + ' line' + (lines === 1 ? '' : 's');
+
+      try {
+        const start = performance.now();
+        const html = NCUI.compile(source);
+        const elapsed = (performance.now() - start).toFixed(1);
+        compileTime.textContent = elapsed + 'ms';
+
+        lastCompiledHtml = html;
+
+        const doc = preview.contentDocument || preview.contentWindow.document;
+        doc.open();
+        doc.write(html);
+        doc.close();
+
+        errorBar.classList.remove('visible');
+        errorBar.textContent = '';
+      } catch (e) {
+        errorBar.textContent = 'Error: ' + e.message;
+        errorBar.classList.add('visible');
+      }
+    }
+
+    function scheduleCompile() {
+      clearTimeout(compileTimer);
+      compileTimer = setTimeout(compileAndRender, 300);
+    }
+
+    editor.addEventListener('input', scheduleCompile);
+
+    // ─── Tab support ────────────────────────────────────────────────────
+
+    editor.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+        this.selectionStart = this.selectionEnd = start + 4;
+        scheduleCompile();
+      }
+    });
+
+    // ─── Example Switching ──────────────────────────────────────────────
+
+    exampleSelect.addEventListener('change', function() {
+      const key = this.value;
+      if (EXAMPLES[key]) {
+        editor.value = EXAMPLES[key];
+        compileAndRender();
+      }
+    });
+
+    // ─── Copy HTML ──────────────────────────────────────────────────────
+
+    document.getElementById('btnCopy').addEventListener('click', function() {
+      if (!lastCompiledHtml) return;
+      navigator.clipboard.writeText(lastCompiledHtml).then(function() {
+        showToast('HTML copied to clipboard');
+      }).catch(function() {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = lastCompiledHtml;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('HTML copied to clipboard');
+      });
+    });
+
+    // ─── Download HTML ──────────────────────────────────────────────────
+
+    document.getElementById('btnDownload').addEventListener('click', function() {
+      if (!lastCompiledHtml) return;
+      const blob = new Blob([lastCompiledHtml], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (exampleSelect.value || 'ncui-output') + '.html';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('File downloaded');
+    });
+
+    // ─── Toast ──────────────────────────────────────────────────────────
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2000);
+    }
+
+    // ─── Resize Handle ──────────────────────────────────────────────────
+
+    (function() {
+      const handle = document.getElementById('resizeHandle');
+      const editorPanel = document.getElementById('editorPanel');
+      let isResizing = false;
+
+      handle.addEventListener('mousedown', function(e) {
+        isResizing = true;
+        handle.classList.add('active');
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+        e.preventDefault();
+      });
+
+      document.addEventListener('mousemove', function(e) {
+        if (!isResizing) return;
+        const containerWidth = document.querySelector('.main').offsetWidth;
+        const newWidth = Math.max(250, Math.min(e.clientX, containerWidth - 250));
+        editorPanel.style.width = newWidth + 'px';
+      });
+
+      document.addEventListener('mouseup', function() {
+        if (isResizing) {
+          isResizing = false;
+          handle.classList.remove('active');
+          document.body.style.cursor = '';
+          document.body.style.userSelect = '';
+        }
+      });
+    })();
+
+    // ─── Init ───────────────────────────────────────────────────────────
+
+    editor.value = EXAMPLES.portfolio;
+    compileAndRender();
+  </script>
+</body>
+</html>
