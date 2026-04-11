@@ -1,0 +1,66 @@
+{
+  "name": "nc-ui",
+  "version": "1.1.0",
+  "description": "Build deterministic plain-English UI apps. NC UI v1 compiles human-readable markup into HTML/CSS/JS with a stable runtime.",
+  "main": "compiler.js",
+  "browser": "nc-ui.js",
+  "bin": {
+    "ncui": "./cli.js",
+    "nc-ui": "./cli.js"
+  },
+  "scripts": {
+    "build": "node cli.js build",
+    "serve": "node cli.js serve",
+    "watch": "node cli.js watch",
+    "test": "node tests/test_compiler.js && node tests/test_security.js && node tests/test_runtime.js && node tests/test_cli.js && node tests/test_project.js && node tests/test_adapters.js",
+    "build:examples": "node cli.js build examples/portfolio.ncui && node cli.js build examples/landing.ncui && node cli.js build examples/dashboard.ncui",
+    "start": "node cli.js serve examples/portfolio.ncui"
+  },
+  "keywords": [
+    "nc",
+    "nc-ui",
+    "ncui",
+    "plain-english",
+    "html-compiler",
+    "website-builder",
+    "no-code",
+    "low-code",
+    "frontend",
+    "css",
+    "compiler",
+    "static-site",
+    "markup",
+    "devheal"
+  ],
+  "author": "DevHeal Labs AI <hello@devheallabs.in>",
+  "license": "Apache-2.0",
+  "homepage": "https://ncui.devheallabs.in",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devheallabs-ai/nc-ui"
+  },
+  "bugs": {
+    "url": "https://github.com/devheallabs-ai/nc-ui/issues"
+  },
+  "files": [
+    "compiler.js",
+    "project.js",
+    "compiler_bridge.js",
+    "nc-ui.js",
+    "cli.js",
+    "runtime.js",
+    "security.js",
+    "runtime/",
+    "adapters/",
+    "examples/",
+    "lsp/",
+    "packages/",
+    "playground.html",
+    "README.md",
+    "templates/",
+    "vscode-extension/",
+    "start.sh",
+    "start.bat",
+    "LICENSE"
+  ]
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuralEdge — NC UI Demo</title>
+
+    <style>
+        /* NC UI Default Theme Variables */
+        :root {
+            --ncui-primary:    #6366f1;
+            --ncui-secondary:  #8b5cf6;
+            --ncui-background: #0a0a0a;
+            --ncui-surface:    #111111;
+            --ncui-surface-2:  #1a1a2e;
+            --ncui-text:       #ffffff;
+            --ncui-text-muted: #888888;
+            --ncui-border:     #222222;
+            --ncui-radius:     8px;
+            --ncui-success:    #22c55e;
+            --ncui-danger:     #ef4444;
+            --ncui-warning:    #f59e0b;
+            --ncui-info:       #3b82f6;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--ncui-background);
+            color: var(--ncui-text);
+            min-height: 100vh;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* ── App Layout ───────────────────────────── */
+        .ncui-app     { min-height: 100vh; display: flex; flex-direction: column; }
+        .ncui-main    { flex: 1; }
+        .ncui-container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+
+        /* ── Header ───────────────────────────────── */
+        .ncui-header       { background: var(--ncui-surface); border-bottom: 1px solid var(--ncui-border); position: sticky; top: 0; z-index: 100; }
+        .ncui-header-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; height: 60px; gap: 2rem; }
+        .ncui-logo         { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.1rem; }
+        .ncui-logo-icon    { font-size: 1.4rem; }
+        .ncui-nav          { display: flex; gap: 0.25rem; flex: 1; }
+        .ncui-nav-link     { padding: 0.4rem 0.875rem; border-radius: var(--ncui-radius); color: var(--ncui-text-muted); text-decoration: none; font-size: 0.875rem; transition: all 0.15s; }
+        .ncui-nav-link:hover, .ncui-nav-link.active { background: rgba(99,102,241,0.15); color: var(--ncui-primary); }
+
+        /* ── Hero ─────────────────────────────────── */
+        .ncui-hero       { background: linear-gradient(135deg, #0f0f1a 0%, #1a1a3a 100%); padding: 3rem 0; border-bottom: 1px solid var(--ncui-border); }
+        .ncui-hero-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        .ncui-hero-title { font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #fff 0%, var(--ncui-primary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .ncui-hero-sub   { color: var(--ncui-text-muted); margin: 0.5rem 0 2rem; font-size: 1rem; }
+
+        /* ── Search ───────────────────────────────── */
+        .ncui-search-bar   { display: flex; gap: 0.75rem; max-width: 600px; }
+        .ncui-search-input { flex: 1; background: rgba(255,255,255,0.07); border: 1px solid var(--ncui-border); border-radius: var(--ncui-radius); color: var(--ncui-text); padding: 0.75rem 1rem; font-size: 1rem; }
+        .ncui-search-input::placeholder { color: var(--ncui-text-muted); }
+        .ncui-search-input:focus { outline: none; border-color: var(--ncui-primary); }
+
+        /* ── Buttons ──────────────────────────────── */
+        .ncui-btn         { padding: 0.625rem 1.25rem; border: none; border-radius: var(--ncui-radius); cursor: pointer; font-weight: 500; font-size: 0.875rem; transition: all 0.2s; }
+        .ncui-btn-primary { background: var(--ncui-primary); color: #fff; }
+        .ncui-btn-primary:hover:not(:disabled) { background: #4f46e5; }
+        .ncui-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* ── Cards ────────────────────────────────── */
+        .ncui-card       { background: var(--ncui-surface); border: 1px solid var(--ncui-border); border-radius: var(--ncui-radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+        .ncui-card-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--ncui-text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem; }
+
+        /* ── Quote Card ───────────────────────────── */
+        .ncui-quote-card        { background: linear-gradient(135deg, var(--ncui-surface) 0%, var(--ncui-surface-2) 100%); }
+        .ncui-quote-header      { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+        .ncui-quote-symbol      { font-size: 2rem; font-weight: 800; }
+        .ncui-quote-name        { color: var(--ncui-text-muted); font-size: 0.875rem; }
+        .ncui-quote-price-block { text-align: right; }
+        .ncui-quote-price       { font-size: 2rem; font-weight: 700; }
+        .ncui-quote-change      { font-size: 0.875rem; font-weight: 600; margin-top: 0.25rem; }
+        .ncui-quote-stats       { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 1rem; }
+        .ncui-stat              { display: flex; flex-direction: column; gap: 0.25rem; }
+        .ncui-stat-label        { font-size: 0.7rem; color: var(--ncui-text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .ncui-stat-value        { font-weight: 600; font-size: 0.9rem; }
+        .ncui-ai-tag            { background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.3); border-radius: var(--ncui-radius); padding: 0.75rem 1rem; font-size: 0.8rem; }
+        .ncui-ai-insight        { color: var(--ncui-text-muted); }
+
+        /* ── Colors ───────────────────────────────── */
+        .up   { color: var(--ncui-success); }
+        .down { color: var(--ncui-danger);  }
+
+        /* ── Quick Actions ────────────────────────── */
+        .ncui-quick-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; padding: 1.5rem 0; }
+        .ncui-quick-btn     { background: var(--ncui-surface); border: 1px solid var(--ncui-border); border-radius: var(--ncui-radius); padding: 0.625rem 1rem; cursor: pointer; color: var(--ncui-text); display: flex; align-items: center; gap: 0.5rem; transition: all 0.15s; }
+        .ncui-quick-btn:hover { border-color: var(--ncui-primary); background: rgba(99,102,241,0.1); }
+        .ncui-quick-symbol  { font-weight: 700; }
+        .ncui-quick-label   { color: var(--ncui-text-muted); font-size: 0.8rem; }
+        .ncui-quick-badge   { font-size: 0.65rem; }
+
+        /* ── Table ────────────────────────────────── */
+        .ncui-table         { width: 100%; border-collapse: collapse; }
+        .ncui-table th      { text-align: left; padding: 0.625rem 0.875rem; color: var(--ncui-text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--ncui-border); }
+        .ncui-table td      { padding: 0.75rem 0.875rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .ncui-table tr:last-child td { border-bottom: none; }
+        .ncui-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+        /* ── Badges ───────────────────────────────── */
+        .ncui-badge         { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; }
+        .ncui-badge-success { background: rgba(34,197,94,0.15);  color: #86efac; }
+        .ncui-badge-info    { background: rgba(59,130,246,0.15); color: #93c5fd; }
+        .ncui-badge-warning { background: rgba(245,158,11,0.15); color: #fcd34d; }
+        .ncui-badge-danger  { background: rgba(239,68,68,0.15);  color: #fca5a5; }
+
+        /* ── Alerts ───────────────────────────────── */
+        .ncui-alert         { padding: 0.875rem 1rem; border-radius: var(--ncui-radius); margin: 0 1.5rem 1rem; }
+        .ncui-alert-error   { background: rgba(239,68,68,0.1); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+
+        /* ── Loading ──────────────────────────────── */
+        .ncui-loading  { display: flex; align-items: center; justify-content: center; padding: 3rem; }
+        .ncui-spinner  { width: 32px; height: 32px; border: 3px solid var(--ncui-border); border-top-color: var(--ncui-primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Footer ───────────────────────────────── */
+        .ncui-footer   { border-top: 1px solid var(--ncui-border); padding: 1.5rem; text-align: center; color: var(--ncui-text-muted); font-size: 0.8rem; }
+
+        /* ── Responsive ───────────────────────────── */
+        @media (max-width: 768px) {
+            .ncui-hero-title  { font-size: 1.5rem; }
+            .ncui-search-bar  { flex-direction: column; }
+            .ncui-quote-stats { grid-template-columns: repeat(2, 1fr); }
+            .ncui-quote-header { flex-direction: column; gap: 1rem; }
+            .ncui-quick-actions { gap: 0.5rem; }
+            .ncui-header-tag  { display: none; }
+            /* Horizontal scroll for table on mobile */
+            .ncui-card        { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NC UI App — mounts here -->
+    <div id="app">
+        <!-- Initial loading state (shown before JS initializes) -->
+        <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;">
+            <div class="ncui-spinner"></div>
+        </div>
+    </div>
+
+    <!--
+        NC UI Runtime — the reactive engine.
+        Handles: virtual DOM, state reactivity, routing, auth, forms.
+        Size: ~12KB minified. No dependencies.
+    -->
+    <script src="../../runtime/ncui-runtime.js"></script>
+
+    <!--
+        Compiled NC UI App.
+        This was generated FROM plain English .ncui source:
+
+            page "dashboard" title "NeuralEdge":
+                state:
+                    symbol is "NVDA"
+                    quote is nil
+                    loading is false
+
+                on mount:
+                    fetch "/api/quote/" + state.symbol with auth save as quote
+
+                section:
+                    heading "AI Stock Intelligence"
+                    ...
+
+        NC UI Compiler converted that to the h() calls below.
+        No HTML knowledge needed to write NC UI — it's plain English.
+    -->
+    <script src="app.ncui.js"></script>
+</body>
+</html>

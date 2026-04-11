@@ -1,0 +1,37 @@
+{
+  "Page": {
+    "prefix": "page",
+    "body": [
+      "page \"${1:Dashboard}\"",
+      "theme \"${2:dark}\"",
+      "section hero:",
+      "    heading \"${3:Welcome}\"",
+      "    text \"${4:Built with NC UI}\""
+    ],
+    "description": "Create a basic NC UI page"
+  },
+  "Auth Form": {
+    "prefix": "auth-form",
+    "body": [
+      "form action \"${1:/api/auth/login}\" method \"POST\" with auth redirect to \"${2:/dashboard}\":",
+      "    input \"Email\" type \"email\" bind email",
+      "        validate required email",
+      "",
+      "    input \"Password\" type \"password\" bind password",
+      "        validate required min-length 8",
+      "",
+      "    button \"${3:Sign In}\" style \"primary\""
+    ],
+    "description": "Create an auth-aware plain-English form"
+  },
+  "Mount Fetch": {
+    "prefix": "mount-fetch",
+    "body": [
+      "state ${1:items} is []",
+      "",
+      "on mount:",
+      "    fetch \"${2:/api/items}\" ${3:with auth }save as ${1:items}"
+    ],
+    "description": "Create a mount-time data loading block"
+  }
+}

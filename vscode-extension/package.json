@@ -1,0 +1,111 @@
+{
+  "name": "nc-language-tools",
+  "displayName": "NC Language Tools",
+  "description": "Full IDE for the NC programming language — syntax highlighting, code runner, sidebar console, and LSP integration.",
+  "version": "0.2.0",
+  "publisher": "devheal-labs",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "nc",
+        "aliases": ["NC", "nc"],
+        "extensions": [".nc"],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "ncui",
+        "aliases": ["NC UI", "ncui"],
+        "extensions": [".ncui"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "nc",
+        "scopeName": "source.nc",
+        "path": "./syntaxes/nc.tmLanguage.json"
+      },
+      {
+        "language": "ncui",
+        "scopeName": "source.ncui",
+        "path": "./syntaxes/ncui.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "nc",
+        "path": "./snippets/nc.json"
+      },
+      {
+        "language": "ncui",
+        "path": "./snippets/ncui.json"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "nc-ide",
+          "title": "NC IDE",
+          "icon": "media/nc-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "nc-ide": [
+        {
+          "type": "webview",
+          "id": "nc-ai-chat",
+          "name": "NC Chat",
+          "icon": "media/nc-icon.svg"
+        },
+        {
+          "type": "webview",
+          "id": "nc-ide-chat",
+          "name": "NC Console",
+          "icon": "media/nc-icon.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "nc.runFile",
+        "title": "NC: Run Current File",
+        "icon": "$(play)"
+      },
+      {
+        "command": "nc.openConsole",
+        "title": "NC: Open Console"
+      },
+      {
+        "command": "nc.openChat",
+        "title": "NC: Open AI Chat"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "nc.runFile",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "editorLangId == nc || editorLangId == ncui"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "nc.runFile",
+          "when": "editorLangId == nc || editorLangId == ncui",
+          "group": "navigation"
+        }
+      ]
+    }
+  }
+}

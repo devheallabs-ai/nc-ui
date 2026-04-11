@@ -1,0 +1,40 @@
+{
+  "scopeName": "source.nc",
+  "name": "NC",
+  "patterns": [
+    {
+      "match": "\\b(service|version|configure|to|with|return|set|if|else|repeat|while|for|each|in|is|below|above|equals|not|and|or|true|false|none|import|from|as|class|method|field|create|delete|update|get|post|put|print|show|listen|on|do|end|break|continue|try|catch|throw)\\b",
+      "name": "keyword.control.nc"
+    },
+    {
+      "match": "\\b(str|num|bool|list|map|len|lower|upper|replace|split|join|push|pop|keys|values|type|range|abs|round|floor|ceil|min|max|sort|filter|find|contains|starts_with|ends_with|trim|format|parse|sleep|time|date|now|random|read_file|write_file|http_get|http_post|json_parse|json_string)\\b",
+      "name": "support.function.nc"
+    },
+    {
+      "match": "\"(?:[^\"\\\\]|\\\\.)*\"",
+      "name": "string.quoted.double.nc"
+    },
+    {
+      "match": "'(?:[^'\\\\]|\\\\.)*'",
+      "name": "string.quoted.single.nc"
+    },
+    {
+      "match": "\\b\\d+(?:\\.\\d+)?\\b",
+      "name": "constant.numeric.nc"
+    },
+    {
+      "match": "//.*$",
+      "name": "comment.line.double-slash.nc"
+    },
+    {
+      "begin": "/\\*",
+      "end": "\\*/",
+      "name": "comment.block.nc"
+    },
+    {
+      "match": "\\b(purpose|port|host|route|endpoint|middleware|database|model|schema|field|validate|required|optional)\\b",
+      "name": "entity.name.tag.nc"
+    }
+  ],
+  "uuid": "a2e3f8b1-4c5d-6e7f-8a9b-0c1d2e3f4a5b"
+}

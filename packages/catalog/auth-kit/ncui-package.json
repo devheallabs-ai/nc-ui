@@ -1,0 +1,12 @@
+{
+  "name": "auth-kit",
+  "version": "0.1.0",
+  "description": "Reusable auth and session helpers for enterprise NC UI apps.",
+  "main": "index.ncui",
+  "styles": [
+    "styles/package.css"
+  ],
+  "scripts": [
+    "scripts/package.js"
+  ]
+}

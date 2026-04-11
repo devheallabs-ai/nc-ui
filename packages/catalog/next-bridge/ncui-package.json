@@ -1,0 +1,12 @@
+{
+  "name": "next-bridge",
+  "version": "0.1.0",
+  "description": "Next-style bridge helpers for NC UI.",
+  "main": "index.ncui",
+  "styles": [
+    "styles/package.css"
+  ],
+  "scripts": [
+    "scripts/package.js"
+  ]
+}

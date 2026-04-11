@@ -1,0 +1,32 @@
+name: NC UI CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate compiler and runtime
+        run: |
+          FAILED=0
+          for f in compiler.nc compiler.js runtime/ncui-js-emitter.nc package.json; do
+            if [ -f "$f" ]; then
+              echo "  OK  $f"
+            else
+              echo "  MISSING  $f"
+              FAILED=1
+            fi
+          done
+          exit $FAILED
+
+      - name: Validate example corpus
+        run: |
+          count=$(find examples -name '*.ncui' | wc -l)
+          echo "Found $count NC UI examples"
+          test "$count" -gt 0

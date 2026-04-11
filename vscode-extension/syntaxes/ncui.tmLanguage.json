@@ -1,0 +1,23 @@
+{
+  "scopeName": "source.ncui",
+  "name": "NC UI",
+  "patterns": [
+    {
+      "match": "\\b(app|page|theme|accent|font|section|nav|footer|state|computed|routes|guard|auth|component|form|input|textarea|table|button|text|heading|subheading|badge|progress|grid|card|on|mount|fetch|validate|redirect|save|response|with|bind|required|public|authenticated)\\b",
+      "name": "keyword.control.ncui"
+    },
+    {
+      "match": "\"(?:[^\"\\\\]|\\\\.)*\"",
+      "name": "string.quoted.double.ncui"
+    },
+    {
+      "match": "\\b\\d+(?:\\.\\d+)?\\b",
+      "name": "constant.numeric.ncui"
+    },
+    {
+      "match": "//.*$",
+      "name": "comment.line.double-slash.ncui"
+    }
+  ],
+  "uuid": "7f19b6dc-5b06-4d88-9e54-f16d0c51e1bb"
+}

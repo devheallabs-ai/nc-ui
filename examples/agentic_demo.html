@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NC Agentic AI Demo</title>
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+<meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+<meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+<meta http-equiv="Cross-Origin-Resource-Policy" content="same-origin">
+<meta http-equiv="X-Permitted-Cross-Domain-Policies" content="none">
+
+<link rel="stylesheet" href="./agentic_demo.css">
+</head>
+<body>
+<nav class="ncui-nav"><div class="ncui-container ncui-nav-inner"><a href="#" class="ncui-brand">NC Agent Demo</a><div class="ncui-nav-links"><a href="#demo" class="ncui-link">Demo</a><a href="#how" class="ncui-link">How It Works</a><a href="#code" class="ncui-link">NC Code</a><a href="https://nc.devheallabs.in" class="ncui-btn ncui-btn-primary">Get NC</a></div><button class="ncui-nav-toggle" data-ncui-nav-toggle="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></nav><section id="hero" class="ncui-section ncui-centered ncui-hero ncui-anim-fade-up">
+<div class="ncui-container">
+<span class="ncui-badge">First-Class Agent Support</span><h2 class="ncui-heading ncui-gradient-text">Agentic AI in NC</h2><p class="ncui-sub">Build autonomous AI agents in 15 lines of plain English</p><p class="ncui-text">No LangChain. No CrewAI. No Python. Just NC.</p>
+</div>
+</section><section id="demo" class="ncui-section">
+<div class="ncui-container">
+<h2 class="ncui-heading ncui-gradient-text">Try the Agent</h2><p class="ncui-text">Enter a research question and watch the Plan-Act-Observe loop</p><div class="ncui-card"><form class="ncui-form" action="#" method="POST" data-ncui-action-url="#"><div class="ncui-form-status" data-ncui-form-status></div><div class="ncui-field"><label for="f-what-would-you-like-to-research?">What would you like to research?</label><input id="f-what-would-you-like-to-research?" name="query" data-ncui-field="query" type="text" placeholder="What would you like to research?" data-ncui-bind="query" aria-describedby="f-what-would-you-like-to-research?-error"><div id="f-what-would-you-like-to-research?-error" class="ncui-field-error" data-ncui-error-for="query"></div></div><button class="ncui-btn ncui-btn-primary" data-ncui-click="runAgent">Run Agent</button></form></div><div data-ncui-if="state.loading"><p class="ncui-text">Agent is thinking...</p></div><div data-ncui-if="state.agentLog"><h2 class="ncui-heading">Agent Log</h2><template id="ncui-tpl-each"></template><div data-ncui-repeat="each" data-ncui-repeat-tpl="ncui-tpl-each"></div><p class="ncui-text"></p></div>
+</div>
+</section><div data-ncui-if="state.result"><div class="ncui-card"><h2 class="ncui-heading">Result</h2><p class="ncui-text"></p></div></div><section id="how" class="ncui-section ncui-anim-stagger">
+<div class="ncui-container">
+<h2 class="ncui-heading">How NC Agents Work</h2><p class="ncui-text">The Plan-Act-Observe loop — built into the language</p><div class="ncui-grid ncui-grid-3"><div class="ncui-card"><div class="ncui-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4.5 17.5a2.5 2.5 0 0 1-.44-4.96A2.5 2.5 0 0 1 6.5 10a2.5 2.5 0 0 1 .44-4.96A2.5 2.5 0 0 1 9.5 2z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44A2.5 2.5 0 0 0 19.5 17.5a2.5 2.5 0 0 0 .44-4.96A2.5 2.5 0 0 0 17.5 10a2.5 2.5 0 0 0-.44-4.96A2.5 2.5 0 0 0 14.5 2z"/></svg></div><h2 class="ncui-heading">1. Plan</h2><p class="ncui-text">Agent analyzes the task and decides which tools to use. NC AI provides intent-aware reasoning.</p></div><div class="ncui-card"><div class="ncui-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 3 0 3 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-3 0-3"/></svg></div><h2 class="ncui-heading">2. Act</h2><p class="ncui-text">Agent calls exactly ONE tool per step with structured JSON: {&quot;action&quot;: &quot;search&quot;, &quot;input&quot;: {...}}</p></div><div class="ncui-card"><div class="ncui-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><h2 class="ncui-heading">3. Observe</h2><p class="ncui-text">Agent reads tool output, decides to continue or finish. Uses {&quot;action&quot;: &quot;finish&quot;, &quot;result&quot;: &quot;...&quot;} when done.</p></div></div>
+</div>
+</section><section id="code" class="ncui-section ncui-anim-fade-up">
+<div class="ncui-container">
+<h2 class="ncui-heading ncui-gradient-text">NC vs Python</h2><p class="ncui-text">15 lines of NC replaces 60+ lines of Python + LangChain</p><div class="ncui-grid ncui-grid-2"><div class="ncui-card"><h2 class="ncui-heading">NC — 15 lines</h2><p class="ncui-text">@tool</p><p class="ncui-text">to search with query:</p><p class="ncui-text">    gather results from URL</p><p class="ncui-text">    respond with results</p><p class="ncui-text"></p><p class="ncui-text">agent researcher:</p><p class="ncui-text">    purpose: &quot;Research topics&quot;</p><p class="ncui-text">    tools: [search]</p><p class="ncui-text">    max_steps: 5</p><p class="ncui-text"></p><p class="ncui-text">run agent researcher with question</p><p class="ncui-text">    save as: answer</p></div><div class="ncui-card"><h2 class="ncui-heading">Python + LangChain — 60+ lines</h2><p class="ncui-text">from langchain.agents import initialize_agent</p><p class="ncui-text">from langchain.tools import Tool</p><p class="ncui-text">from langchain.llms import NC</p><p class="ncui-text">import requests</p><p class="ncui-text">...</p><p class="ncui-text">def search(query):</p><p class="ncui-text">    resp = requests.get(url)</p><p class="ncui-text">    return resp.json()</p><p class="ncui-text">...</p><p class="ncui-text">tools = [Tool(name='search', ...)]</p><p class="ncui-text">agent = initialize_agent(tools, llm, ...)</p><p class="ncui-text">result = agent.run(question)</p></div></div>
+</div>
+</section><footer class="ncui-footer"><div class="ncui-container">
+<p class="ncui-text">© 2026 DevHeal Labs AI — Built with NC</p><div class="ncui-row"></div><a href="https://ncai.devheallabs.in" class="ncui-link">NC AI</a><a href="https://github.com/DevHeal-Labs" class="ncui-link">GitHub</a>
+</div></footer>
+
+<script id="ncui-ssr-data" type="application/json">null</script>
+<script src="./agentic_demo.js" defer></script>
+</body>
+</html>

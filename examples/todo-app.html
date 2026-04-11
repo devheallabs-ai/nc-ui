@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo App</title>
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+<meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+<meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+<meta http-equiv="Cross-Origin-Resource-Policy" content="same-origin">
+<meta http-equiv="X-Permitted-Cross-Domain-Policies" content="none">
+
+<link rel="stylesheet" href="./todo-app.css">
+</head>
+<body>
+<nav class="ncui-nav"><div class="ncui-container ncui-nav-inner"><a href="#" class="ncui-brand">Todo</a><div class="ncui-nav-links"><a href="#all" class="ncui-link">All</a><a href="#active" class="ncui-link">Active</a><a href="#done" class="ncui-link">Done</a></div><button class="ncui-nav-toggle" data-ncui-nav-toggle="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></nav><section id="hero" class="ncui-section ncui-centered ncui-hero ncui-anim-fade-up">
+<div class="ncui-container">
+<h2 class="ncui-heading ncui-gradient-text">Todo App</h2><p class="ncui-sub">Built with NC UI — State, Events, Components</p><p class="ncui-text">A fully interactive todo application written in plain English.</p>
+</div>
+</section><section id="tasks" class="ncui-section ncui-anim-stagger">
+<div class="ncui-container">
+<h2 class="ncui-heading">My Tasks</h2><form class="ncui-form" action="/add" method="POST" data-ncui-action-url="/add"><div class="ncui-form-status" data-ncui-form-status></div><div class="ncui-field"><label for="f-what-needs-to-be-done?">What needs to be done?</label><input id="f-what-needs-to-be-done?" name="what_needs_to_be_done" data-ncui-field="what_needs_to_be_done" type="text" placeholder="What needs to be done?" required data-ncui-validators="[{&quot;rule&quot;:&quot;required&quot;}]" aria-describedby="f-what-needs-to-be-done?-error"><div id="f-what-needs-to-be-done?-error" class="ncui-field-error" data-ncui-error-for="what_needs_to_be_done"></div></div><button class="ncui-btn ncui-btn-primary" data-ncui-click="addTask">Add Task</button></form><div class="ncui-grid ncui-grid-1"><template id="ncui-tpl-tasks"><div class="ncui-card"><div class="ncui-row"><p class="ncui-text"><span data-ncui-text="{{task.title}}">${task.title}</span></p><button class="ncui-btn ncui-btn-outline" data-ncui-click="removeTask">Remove</button></div></div></template><div data-ncui-repeat="tasks" data-ncui-repeat-tpl="ncui-tpl-tasks"></div></div><div class="ncui-row"><button class="ncui-btn ncui-btn-primary" data-ncui-click="setFilter">All</button><button class="ncui-btn ncui-btn-outline" data-ncui-click="setFilter">Active</button><button class="ncui-btn ncui-btn-outline" data-ncui-click="setFilter">Completed</button></div>
+</div>
+</section><section id="stats" class="ncui-section ncui-centered ncui-anim-fade-up">
+<div class="ncui-container">
+<h2 class="ncui-heading">Statistics</h2><div class="ncui-grid ncui-grid-3"><div class="ncui-card"><div class="ncui-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="ncui-stat"><span class="ncui-stat-val">0</span><span class="ncui-stat-label">Completed</span></div></div><div class="ncui-card"><div class="ncui-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="ncui-stat"><span class="ncui-stat-val">0</span><span class="ncui-stat-label">Pending</span></div></div><div class="ncui-card"><div class="ncui-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="ncui-stat"><span class="ncui-stat-val">0</span><span class="ncui-stat-label">Total</span></div></div></div>
+</div>
+</section><footer class="ncui-footer"><div class="ncui-container">
+<p class="ncui-text">Built with NC UI — Plain English, Real Power</p><div class="ncui-row"><a href="https://github.com/devheallabs-ai/nc-ui" class="ncui-link">GitHub</a><a href="#" class="ncui-link">Docs</a></div>
+</div></footer>
+
+<script id="ncui-ssr-data" type="application/json">null</script>
+<script src="./todo-app.js" defer></script>
+</body>
+</html>

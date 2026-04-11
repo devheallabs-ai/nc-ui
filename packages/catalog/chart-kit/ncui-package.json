@@ -1,0 +1,12 @@
+{
+  "name": "chart-kit",
+  "version": "0.1.0",
+  "description": "Enterprise chart helpers for NC UI analytics pages.",
+  "main": "index.ncui",
+  "styles": [
+    "styles/package.css"
+  ],
+  "scripts": [
+    "scripts/package.js"
+  ]
+}

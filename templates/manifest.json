@@ -1,0 +1,22 @@
+{
+  "templates": [
+    {
+      "id": "enterprise-admin",
+      "name": "Enterprise Admin",
+      "description": "Admin portal with auth-aware dashboard, metrics, users, and audit views.",
+      "file": "enterprise-admin.ncui"
+    },
+    {
+      "id": "customer-portal",
+      "name": "Customer Portal",
+      "description": "Customer-facing portal with login, profile, billing, and support actions.",
+      "file": "customer-portal.ncui"
+    },
+    {
+      "id": "docs-kb",
+      "name": "Docs Knowledge Base",
+      "description": "Knowledge base and docs portal with search, navigation, and article layouts.",
+      "file": "docs-kb.ncui"
+    }
+  ]
+}

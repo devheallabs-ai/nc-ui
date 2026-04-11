@@ -1,0 +1,47 @@
+# Build output
+dist/
+build/
+*.html.out
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+*.jks
+*.keystore
+*.secret
+*.token
+*.credentials
+
+# VS Code extension build
+vscode-extension/*.vsix
+vscode-extension/node_modules/
+
+# Electron desktop
+desktop/node_modules/
+desktop/dist/
+desktop/out/

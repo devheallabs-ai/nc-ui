@@ -1,0 +1,21 @@
+{
+  "name": "my-ncui-package",
+  "version": "0.1.0",
+  "description": "Reusable plain-English NC UI package.",
+  "main": "index.ncui",
+  "exports": [
+    "components/*",
+    "templates/*"
+  ],
+  "styles": [
+    "styles/package.css"
+  ],
+  "scripts": [
+    "scripts/package.js"
+  ],
+  "enterprise": {
+    "supportsAuth": true,
+    "supportsAudit": true,
+    "supportsRBAC": true
+  }
+}
