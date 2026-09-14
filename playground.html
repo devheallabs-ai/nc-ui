@@ -7,20 +7,22 @@
   <meta name="description" content="Try NC UI live in your browser. Write plain English, get stunning websites.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <style>
+  <link rel="stylesheet" href="assets/style.css">
+<style>
+/* bridge page-local token names onto the shared design system */
+:root{
+  --pink:var(--accent-2);
+  --bg3:var(--surface-2);
+  --glass-border:var(--glass-brd);
+  --text2:var(--text-muted);
+  --text3:var(--text-dim);
+  --bg-card:var(--surface);
+  --bg-editor:var(--code-bg);
+  --gradient:var(--grad-accent);
+}
+</style>
+<style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --bg: #0a0a0f;
-      --bg-card: #12121a;
-      --bg-editor: #0d0d14;
-      --border: rgba(255,255,255,0.08);
-      --text: #f0f0f5;
-      --text-dim: rgba(255,255,255,0.5);
-      --accent: #2b90ff;
-      --accent2: #5aa9ff;
-      --gradient: linear-gradient(135deg, #2b90ff, #5aa9ff);
-    }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
