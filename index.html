@@ -246,6 +246,51 @@ curl -fsSL https://nc.devheallabs.in/install.sh | sh
   </div>
 </section>
 
+<!-- Who it's for -->
+<section class="sec-alt" id="who">
+  <div class="container">
+    <div class="sec-label sr">Who it&rsquo;s for</div>
+    <h2 class="sec-title sr d1">Teams whose interface is smaller than the toolchain it needs</h2>
+    <p class="sec-desc wide sr d2">NC UI is for interfaces where a bundler, a dependency tree and a runtime are heavier than the thing being rendered. It is not a replacement for a full front-end framework on a large product, and we would tell you so.</p>
+    <div class="grid-3 sr d2"><div class="card"><h3 style="margin:0 0 8px;font-size:1rem;font-weight:800">Full-stack teams on NC</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.7">Describe the interface in the same syntax as the backend and ship both as static output. One language, one execution model.</p></div><div class="card"><h3 style="margin:0 0 8px;font-size:1rem;font-weight:800">Internal tooling owners</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.7">Dashboards and admin pages that need to exist, not to be a project. Compile once, deploy anywhere that serves files.</p></div><div class="card"><h3 style="margin:0 0 8px;font-size:1rem;font-weight:800">Anyone deploying to constrained hosts</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.7">Static HTML, CSS and JavaScript means nothing proprietary runs on the server &mdash; including servers you do not control.</p></div></div>
+  </div>
+</section>
+
+<!-- Proof -->
+<section id="proof">
+  <div class="container">
+    <div class="sec-label sr">Proof</div>
+    <h2 class="sec-title sr d1">What you can verify yourself</h2>
+    <p class="sec-desc wide sr d2">Static output is the whole point, so the proof is that you can read what comes out.</p>
+    <div class="grid-4 sr d2"><div class="stat"><div class="stat-val">1</div><div class="stat-label">command to build</div></div><div class="stat"><div class="stat-val">0</div><div class="stat-label">runtime on the server</div></div><div class="stat"><div class="stat-val">HTML</div><div class="stat-label">plus CSS and JS, inspectable</div></div><div class="stat"><div class="stat-val">7 : 42</div><div class="stat-label">lines, NC UI vs hand-written, same hero</div></div></div>
+    <div class="callout sr d3" style="margin-top:24px">The line-count comparison is against the equivalent hand-written section shown on this page, counted from source. Try the <a href="playground.html" style="color:var(--accent)">playground</a> and read the compiled output &mdash; nothing is hidden in a bundle.</div>
+  </div>
+</section>
+
+<!-- Status & Roadmap -->
+<section class="sec-alt" id="roadmap">
+  <div class="container">
+    <div class="sec-label sr">Status &amp; roadmap</div>
+    <h2 class="sec-title sr d1">What ships today, and what is direction</h2>
+    <p class="sec-desc wide sr d2">Every item is labelled by what it actually is. Beta means it works and is ready to evaluate, with rough edges we fix quickly. Research means a direction, not something you can use yet.</p>
+    <div class="grid-3 sr d2"><div class="card"><span class="badge badge-beta">Beta</span><h3 style="margin:14px 0 8px;font-size:1rem;font-weight:800">Declarative interface language</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.7">Pages, sections, components, themes and animation declared in plain English; compiles to static files.</p></div><div class="card"><span class="badge badge-beta">Beta</span><h3 style="margin:14px 0 8px;font-size:1rem;font-weight:800">Generation via NC AI</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.7">An <code>app.ncui</code> front end generated alongside the backend from one description. Structural validation repairs common errors before output.</p></div><div class="card"><span class="badge badge-research">Research</span><h3 style="margin:14px 0 8px;font-size:1rem;font-weight:800">Interactive data binding</h3><p style="color:var(--muted);font-size:.88rem;line-height:1.7">Live data views bound to NC services without hand-written JavaScript are a direction, not a shipped feature.</p></div></div>
+  </div>
+</section>
+
+<!-- Cross-site -->
+<section class="cta-band" id="built-by">
+  <div class="container">
+    <h2 class="sr">Built by DevHeal Labs AI &mdash; Autonomous by Design</h2>
+    <p class="sr d1">NC UI is one part of a stack where AI and agents are primitives of the programming model, not libraries on top. Everything runs from one binary on ordinary hardware, with no external model provider required.</p>
+    <div class="hero-buttons sr d2" style="margin-bottom:0">
+      <a href="https://devheallabs.in/products/" class="btn btn-primary">Explore the ecosystem</a>
+      <a href="https://devheallabs.in/design-partner/" class="btn btn-ghost">Discuss a pilot</a>
+      <a href="https://github.com/devheallabs-ai/nc-ui" class="btn btn-ghost" target="_blank" rel="noopener">Read the source</a>
+    </div>
+  </div>
+</section>
+
+
 <footer>
   <div class="container">
     <div class="footer-grid">
